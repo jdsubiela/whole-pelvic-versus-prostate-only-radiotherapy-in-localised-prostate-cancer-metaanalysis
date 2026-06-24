@@ -1,0 +1,10 @@
+trial,endpoint,source,pub_hr,pub_lo,pub_hi,recon_hr,recon_lo,recon_hi,events,rmst_diff,rmst_lo,rmst_hi,verdict
+POP-RT,BFFS,published,0.23,0.1,0.52,0.255,0.117,0.556,38,11.39,5.45,17.12,PASS
+POP-RT,DMFS,published,0.35,0.15,0.82,0.343,0.154,0.768,31,7.21,1.63,12.69,PASS
+POP-RT,OS,published,0.92,0.41,2.05,0.834,0.378,1.839,25,1.21,-4.42,6.36,PASS
+GETUG-01,EFS,published,1.05,0.83,1.33,1.153,0.844,1.574,159,-6.59,-16.28,2.38,PASS
+GETUG-01,OS,published,0.88,0.63,1.22,0.925,0.672,1.274,151,1.38,-5.63,8.08,PASS
+PEACE-2,BPFS,slide,0.84,0.66,1.07,0.873,0.69,1.105,278,2.15,-2.04,6.46,PASS
+PEACE-2,MFS,slide,0.9,0.69,1.19,0.914,0.704,1.186,227,0.41,-3.16,4.32,PASS
+PEACE-2,OS,slide,1.21,0.84,1.73,1.205,0.849,1.711,126,-1.02,-3.68,1.96,PASS
+RTOG 0924,OS,slide,1.01,0.85,1.2,0.964,0.828,1.121,671,0.16,-2.35,3.0,PASS

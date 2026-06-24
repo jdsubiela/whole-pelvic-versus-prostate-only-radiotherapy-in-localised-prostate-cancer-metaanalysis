@@ -1,0 +1,26 @@
+# Default: ignore everything at the project root.
+# Then explicitly allow the analysis code + metadata files we want to publish.
+
+# Ignore all top-level entries.
+/*
+
+# Allow only the analysis pipeline and repo metadata.
+!analysis
+!README.md
+!LICENSE
+!.gitignore
+
+# --- Within analysis/, filter out caches, working renders and large raw caches ---
+analysis/**/__pycache__/
+analysis/**/*.pyc
+analysis/**/*.pyo
+analysis/**/.DS_Store
+
+# Working render directories created on-the-fly when digitising figures
+analysis/ipd/_render*/
+analysis/ipd/_tox/
+analysis/**/_tmp_*
+
+# Personal exports (not analysis output)
+analysis/**/*.docx
+analysis/**/*.pages

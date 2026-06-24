@@ -1,0 +1,36 @@
+endpoint,analysis,k,HR,CI_low,CI_high,I2_pct,tau2
+Overall survival,Primary (all; DL + mod-HK),5,1.065,0.936,1.213,0,0.0000
+Overall survival,Full-text trials only,3,1.076,0.840,1.379,0,0.0000
+Overall survival,Exclude POP-RT (outlier),4,1.067,0.919,1.239,0,0.0000
+Overall survival,Fixed-effect (inverse-variance),5,1.065,0.972,1.167,0,0.0000
+Overall survival,"Random-effects, Paule-Mandel τ²",5,1.065,0.936,1.213,0,0.0000
+Overall survival,"Random-effects, REML τ²",5,1.065,0.936,1.213,0,0.0000
+Overall survival,"DL τ², classical Wald CI (no HK)",5,1.065,0.972,1.167,0,0.0000
+Overall survival,LOO: Omit GETUG-01,4,1.082,0.927,1.263,0,0.0000
+Overall survival,LOO: Omit RTOG 9413,4,1.010,0.806,1.265,0,0.0000
+Overall survival,LOO: Omit POP-RT,4,1.067,0.919,1.239,0,0.0000
+Overall survival,LOO: Omit RTOG 0924,4,1.088,0.913,1.296,0,0.0000
+Overall survival,LOO: Omit PEACE-2,4,1.056,0.906,1.231,0,0.0000
+Biochemical / progression,Primary (all; DL + mod-HK),5,0.839,0.545,1.292,69,0.0323
+Biochemical / progression,Full-text trials only,3,0.770,0.153,3.876,84,0.0924
+Biochemical / progression,Exclude POP-RT (outlier),4,0.899,0.765,1.055,0,0.0000
+Biochemical / progression,Fixed-effect (inverse-variance),5,0.881,0.799,0.972,69,0.0000
+Biochemical / progression,"Random-effects, Paule-Mandel τ²",5,0.751,0.391,1.440,69,0.2413
+Biochemical / progression,"Random-effects, REML τ²",5,0.881,0.686,1.132,69,0.0000
+Biochemical / progression,"DL τ², classical Wald CI (no HK)",5,0.839,0.686,1.025,69,0.0323
+Biochemical / progression,LOO: Omit GETUG-01,4,0.780,0.419,1.452,71,0.0376
+Biochemical / progression,LOO: Omit RTOG 9413,4,0.783,0.360,1.702,77,0.0672
+Biochemical / progression,LOO: Omit POP-RT,4,0.899,0.765,1.055,0,0.0000
+Biochemical / progression,LOO: Omit RTOG 0924,4,0.825,0.402,1.694,76,0.0492
+Biochemical / progression,LOO: Omit PEACE-2,4,0.820,0.401,1.677,76,0.0490
+Distant metastasis / MFS,Primary (all; DL + mod-HK),4,0.921,0.538,1.574,55,0.0356
+Distant metastasis / MFS,Full-text trials only,2,0.661,0.001,748.034,84,0.5229
+Distant metastasis / MFS,Exclude POP-RT (outlier),3,1.001,0.703,1.426,0,0.0000
+Distant metastasis / MFS,Fixed-effect (inverse-variance),4,0.966,0.824,1.131,55,0.0000
+Distant metastasis / MFS,"Random-effects, Paule-Mandel τ²",4,0.862,0.435,1.710,55,0.1395
+Distant metastasis / MFS,"Random-effects, REML τ²",4,0.966,0.659,1.414,55,0.0000
+Distant metastasis / MFS,"DL τ², classical Wald CI (no HK)",4,0.921,0.710,1.194,55,0.0356
+Distant metastasis / MFS,LOO: Omit RTOG 9413,3,0.819,0.260,2.575,63,0.0737
+Distant metastasis / MFS,LOO: Omit POP-RT,3,1.001,0.703,1.426,0,0.0000
+Distant metastasis / MFS,LOO: Omit RTOG 0924,3,0.850,0.276,2.611,69,0.0669
+Distant metastasis / MFS,LOO: Omit PEACE-2,3,0.879,0.252,3.072,68,0.0854
