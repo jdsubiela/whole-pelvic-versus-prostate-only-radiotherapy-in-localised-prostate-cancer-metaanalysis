@@ -158,7 +158,8 @@ def analyse():
                   f'I2={P["I2"]:.0f}%  RMST {P["rmst"]:+.1f} ({P["rmst_lo"]:+.1f},{P["rmst_hi"]:+.1f}) mo')
             rows.append(dict(endpoint=ep, level='pooled', label=P['name'], source=key, k=P['k'],
                              hr=round(P['hr'], 3), lo=round(P['lo'], 3), hi=round(P['hi'], 3),
-                             rmst=round(P['rmst'], 2)))
+                             rmst=round(P['rmst'], 2),
+                             I2_pct=round(P['I2'], 1), tau2=round(P['tau2'], 4)))
         pe = f'PH Schoenfeld p={ph_p:.2f}; piecewise HR <=60mo {hr_early:.2f}, >60mo {hr_late:.2f}'
         print(f'  -- {pe}')
         rows.append(dict(endpoint=ep, level='diagnostic', label=pe, source='', k='',

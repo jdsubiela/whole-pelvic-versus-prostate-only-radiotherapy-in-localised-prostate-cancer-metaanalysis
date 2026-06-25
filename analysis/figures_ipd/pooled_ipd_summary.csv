@@ -1,19 +1,19 @@
-endpoint,level,label,source,k,hr,lo,hi,rmst
-Overall survival,trial,POP-RT,published,1,0.834,0.378,1.839,1.21
-Overall survival,trial,GETUG-01,published,1,0.925,0.672,1.274,1.08
-Overall survival,trial,PEACE-2,slide,1,1.205,0.849,1.711,-1.02
-Overall survival,trial,RTOG 0924,slide,1,0.964,0.828,1.121,0.04
-Overall survival,pooled,"Primary (published, k=2)",primary,2,0.912,0.134,6.221,1.14
-Overall survival,pooled,+ slide trials (k=4),all,4,0.982,0.801,1.204,-0.07
-Overall survival,diagnostic,"PH Schoenfeld p=0.61; piecewise HR <=60mo 1.00, >60mo 0.97",,,,,,
-Biochemical / progression,trial,POP-RT,published,1,0.255,0.117,0.556,12.61
-Biochemical / progression,trial,GETUG-01,published,1,1.153,0.844,1.574,-6.16
-Biochemical / progression,trial,PEACE-2,slide,1,0.873,0.69,1.105,2.33
-Biochemical / progression,pooled,"Primary (published, k=2)",primary,2,0.567,0.0,8129.838,3.28
-Biochemical / progression,pooled,+ slide trials (k=3),all,3,0.733,0.124,4.346,2.99
-Biochemical / progression,diagnostic,"PH Schoenfeld p=0.10; piecewise HR <=60mo 0.95, >60mo 0.76",,,,,,
-Distant metastasis / MFS,trial,POP-RT,published,1,0.343,0.154,0.768,7.21
-Distant metastasis / MFS,trial,PEACE-2,slide,1,0.914,0.704,1.186,0.41
-Distant metastasis / MFS,pooled,"Primary (published, k=1)",primary,1,0.343,0.154,0.768,7.21
-Distant metastasis / MFS,pooled,+ slide trials (k=2),all,2,0.605,0.001,280.727,3.53
-Distant metastasis / MFS,diagnostic,"PH Schoenfeld p=0.29; piecewise HR <=60mo 0.88, >60mo 0.74",,,,,,
+endpoint,level,label,source,k,hr,lo,hi,rmst,I2_pct,tau2
+Overall survival,trial,POP-RT,published,1,0.834,0.378,1.839,1.21,,
+Overall survival,trial,GETUG-01,published,1,0.925,0.672,1.274,1.08,,
+Overall survival,trial,PEACE-2,slide,1,1.205,0.849,1.711,-1.02,,
+Overall survival,trial,RTOG 0924,slide,1,0.964,0.828,1.121,0.04,,
+Overall survival,pooled,"Primary (published, k=2)",primary,2,0.912,0.134,6.221,1.14,0.0,0.0
+Overall survival,pooled,+ slide trials (k=4),all,4,0.982,0.801,1.204,-0.07,0.0,0.0
+Overall survival,diagnostic,"PH Schoenfeld p=0.61; piecewise HR <=60mo 1.00, >60mo 0.97",,,,,,,,
+Biochemical / progression,trial,POP-RT,published,1,0.255,0.117,0.556,12.61,,
+Biochemical / progression,trial,GETUG-01,published,1,1.153,0.844,1.574,-6.16,,
+Biochemical / progression,trial,PEACE-2,slide,1,0.873,0.69,1.105,2.33,,
+Biochemical / progression,pooled,"Primary (published, k=2)",primary,2,0.567,0.0,8129.838,3.28,91.9,1.0469
+Biochemical / progression,pooled,+ slide trials (k=3),all,3,0.733,0.124,4.346,2.99,84.0,0.1769
+Biochemical / progression,diagnostic,"PH Schoenfeld p=0.10; piecewise HR <=60mo 0.95, >60mo 0.76",,,,,,,,
+Distant metastasis / MFS,trial,POP-RT,published,1,0.343,0.154,0.768,7.21,,
+Distant metastasis / MFS,trial,PEACE-2,slide,1,0.914,0.704,1.186,0.41,,
+Distant metastasis / MFS,pooled,"Primary (published, k=1)",primary,1,0.343,0.154,0.768,7.21,0.0,0.0
+Distant metastasis / MFS,pooled,+ slide trials (k=2),all,2,0.605,0.001,280.727,3.53,80.5,0.3857
+Distant metastasis / MFS,diagnostic,"PH Schoenfeld p=0.29; piecewise HR <=60mo 0.88, >60mo 0.74",,,,,,,,
