@@ -77,6 +77,7 @@ MIT (see `LICENSE`). Digitised Kaplan-Meier coordinates and reconstructed pseudo
 
 - **José Daniel Subiela** — Department of Urology, Hospital Universitario Ramón y Cajal, Madrid, Spain. *Corresponding author; co-first.* jdsubiela [at] gmail.com.
 - **Elías Gomis Sellés** — Department of Radiation Oncology, Hospital Universitario y Politécnico La Fe (Valencia) / GenesisCare Valencia / Universidad Internacional de La Rioja (UNIR), Spain. *Co-first author.*
+- **Júlia Aumatell** — Department of Urology, Hospital Universitario Rey Juan Carlos, Universidad Rey Juan Carlos, Móstoles, Madrid, Spain.
 - **Fernando López Campos** — Department of Radiation Oncology, Hospital Universitario Ramón y Cajal, Madrid, Spain.
 - **Juan Gómez Rivas** — Department of Urology, Hospital Clínico San Carlos, Madrid, Spain.
 - **Francesco Barletta** — Division of Experimental Oncology, Department of Urology, Urological Research Institute, Vita-Salute San Raffaele University, Milan, Italy.
