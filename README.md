@@ -2,7 +2,7 @@
 
 Reproducible analysis code for the systematic review and meta-analysis:
 
-> **Whole-pelvic versus prostate-only radiotherapy in clinically node-negative high-risk localised prostate adenocarcinoma: a systematic review and meta-analysis with reconstructed individual-patient data.**
+> **Whole-pelvic versus prostate-only radiotherapy in clinically node-negative high-risk localised prostate cancer: a systematic review and meta-analysis with reconstructed individual-patient data.**
 
 - Open Science Framework Project: [osf.io/ajhek](https://osf.io/ajhek/)
 - Open Science Framework Registration: [osf.io/7kfdp](https://osf.io/7kfdp/)
