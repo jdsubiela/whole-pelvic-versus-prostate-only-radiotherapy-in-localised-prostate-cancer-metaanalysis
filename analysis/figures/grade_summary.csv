@@ -1,4 +1,4 @@
 outcome,k,n,effect,baseline_per1000_PORT_7y,intervention_per1000_WPRT_7y,intervention_lo,intervention_hi,rob,inconsistency,indirectness,imprecision,pubbias,certainty
 Overall survival,5,5172,HR 1.07 (0.94 to 1.21),211.0,224.0,199.0,249.0,No concerns,No concerns,Serious,No concerns,Undetected,Moderate
-Biochemical / progression (mixed defn),5,5172,HR 0.84 (0.54 to 1.29),399.0,348.0,241.0,482.0,No concerns,Very serious,Serious,Serious,Undetected,Very low
+Biochemical / progression (mixed defn),5,5172,HR 0.84 (0.54 to 1.29),399.0,348.0,241.0,482.0,Serious,Very serious,Serious,Serious,Undetected,Very low
 Distant metastasis / MFS (mixed defn),4,4728,HR 0.92 (0.54 to 1.57),289.0,270.0,168.0,415.0,No concerns,Serious,Serious,Serious,Undetected,Very low

@@ -123,7 +123,7 @@ ax_c.spines[['top', 'right']].set_visible(False)
 ax_c.xaxis.grid(True, alpha=0.25, linestyle='--'); ax_c.set_axisbelow(True)
 
 # title + shared legend + footnote
-fig.suptitle('Cross-trial comparability (transitivity) dashboard — WPRT vs PORT in localized prostate cancer',
+fig.suptitle('Cross-trial clinical-comparability dashboard — WPRT vs PORT in localized prostate cancer',
              fontsize=15, fontweight='bold', y=0.985)
 fig.legend(handles=[Line2D([0], [0], color=COLORS[j], marker='o', lw=2.5, markersize=6, label=TRIALS[j])
                     for j in range(len(TRIALS))],
