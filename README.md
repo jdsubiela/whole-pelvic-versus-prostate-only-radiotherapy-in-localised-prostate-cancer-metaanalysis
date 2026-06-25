@@ -75,14 +75,14 @@ MIT (see `LICENSE`). Digitised Kaplan-Meier coordinates and reconstructed pseudo
 
 ## Authors
 
-- **José Daniel Subiela** — Department of Urology, Hospital Universitario Ramón y Cajal, Madrid, Spain. *Corresponding author; co-first.* jdsubiela [at] gmail.com.
-- **Elías Gomis Sellés** — Department of Radiation Oncology, Hospital Universitario y Politécnico La Fe (Valencia) / GenesisCare Valencia / Universidad Internacional de La Rioja (UNIR), Spain. *Co-first author.*
-- **Júlia Aumatell** — Department of Urology, Hospital Universitario Rey Juan Carlos, Universidad Rey Juan Carlos, Móstoles, Madrid, Spain.
-- **Fernando López Campos** — Department of Radiation Oncology, Hospital Universitario Ramón y Cajal, Madrid, Spain.
-- **Juan Gómez Rivas** — Department of Urology, Hospital Clínico San Carlos, Madrid, Spain.
-- **Francesco Barletta** — Division of Experimental Oncology, Department of Urology, Urological Research Institute, Vita-Salute San Raffaele University, Milan, Italy.
-- **Òscar Buisan** — Department of Urology, Hospital Universitari de Bellvitge, L'Hospitalet de Llobregat, Barcelona, Spain.
-- **Felipe Couñago** — Department of Radiation Oncology, San Francisco de Asís Hospital / La Milagrosa Hospital, Madrid; National Chair of Research, GenesisCare, Madrid, Spain. *Senior author.*
+- **José Daniel Subiela, MD, PhD** — Department of Urology, Hospital Universitario Ramón y Cajal, Madrid, Spain. *Corresponding author; co-first.* jdsubiela [at] gmail.com.
+- **Elías Gomis Sellés, MD, PhD** — Department of Radiation Oncology, Hospital Universitario y Politécnico La Fe (Valencia) / GenesisCare Valencia / Universidad Internacional de La Rioja (UNIR), Spain. *Co-first author.*
+- **Júlia Aumatell, MD, PhD** — Department of Urology, Hospital Universitario Rey Juan Carlos, Universidad Rey Juan Carlos, Móstoles, Madrid, Spain.
+- **Fernando López Campos, MD, PhD** — Department of Radiation Oncology, Hospital Universitario Ramón y Cajal, Madrid, Spain.
+- **Juan Gómez Rivas, MD, PhD** — Department of Urology, Hospital Clínico San Carlos, Madrid, Spain.
+- **Francesco Barletta, MD** — Division of Experimental Oncology, Department of Urology, Urological Research Institute, Vita-Salute San Raffaele University, Milan, Italy.
+- **Òscar Buisan, MD, PhD** — Department of Urology, Hospital Universitari de Bellvitge, L'Hospitalet de Llobregat, Barcelona, Spain.
+- **Felipe Couñago, MD, PhD** — Department of Radiation Oncology, San Francisco de Asís Hospital / La Milagrosa Hospital, Madrid; National Chair of Research, GenesisCare, Madrid, Spain. *Senior author.*
 
 Additional international co-authors and the full byline + numbered affiliations live in [`manuscript/authors.md`](https://osf.io/ajhek/) (OSF Project) and in the PROSPERO record above.
 
