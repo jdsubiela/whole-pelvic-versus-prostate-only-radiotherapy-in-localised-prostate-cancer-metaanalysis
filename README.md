@@ -81,8 +81,8 @@ MIT (see `LICENSE`). Digitised Kaplan-Meier coordinates and reconstructed pseudo
 - **Fernando López Campos, MD, PhD** — Department of Radiation Oncology, Hospital Universitario Ramón y Cajal, Madrid, Spain.
 - **Juan Gómez Rivas, MD, PhD** — Department of Urology, Hospital Clínico San Carlos, Madrid, Spain.
 - **Francesco Barletta, MD** — Division of Experimental Oncology, Department of Urology, Urological Research Institute, Vita-Salute San Raffaele University, Milan, Italy.
-- **Òscar Buisan, MD, PhD** — Department of Urology, Hospital Universitari de Bellvitge, L'Hospitalet de Llobregat, Barcelona, Spain.
-- **Felipe Couñago, MD, PhD** — Department of Radiation Oncology, San Francisco de Asís Hospital / La Milagrosa Hospital, Madrid; National Chair of Research, GenesisCare, Madrid, Spain. *Senior author.*
+- **Òscar Buisan, MD, PhD** — Department of Urology, Hospital Universitari de Bellvitge, L'Hospitalet de Llobregat, Barcelona, Spain. *Co-senior author.*
+- **Felipe Couñago, MD, PhD** — Department of Radiation Oncology, San Francisco de Asís Hospital / La Milagrosa Hospital, Madrid; National Chair of Research, GenesisCare, Madrid, Spain. *Co-senior author.*
 
 Additional international co-authors and the full byline + numbered affiliations live in [`manuscript/authors.md`](https://osf.io/ajhek/) (OSF Project) and in the PROSPERO record above.
 
