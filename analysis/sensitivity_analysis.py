@@ -96,8 +96,15 @@ def pool(triples, tau2_method='DL', ci='hk'):
     else:  # modified Hartung-Knapp (SE floored at classical RE SE), t_{k-1}
         se_hk = np.sqrt((w * (y - ybar) ** 2).sum() / ((k - 1) * sw))
         se, crit = max(se_hk, se_normal), student_t.ppf(0.975, k - 1)
+    # 95% prediction interval (Higgins-Thompson-Spiegelhalter; t_{k-2}); random-effects only
+    if ci not in ('fixed', 'wald') and k >= 3:
+        tpi = student_t.ppf(0.975, k - 2)
+        pi_lo = np.exp(ybar - tpi * np.sqrt(tau2 + se ** 2))
+        pi_hi = np.exp(ybar + tpi * np.sqrt(tau2 + se ** 2))
+    else:
+        pi_lo = pi_hi = np.nan
     return dict(k=k, hr=np.exp(ybar), lo=np.exp(ybar - crit * se),
-                hi=np.exp(ybar + crit * se), I2=I2, tau2=tau2)
+                hi=np.exp(ybar + crit * se), I2=I2, tau2=tau2, pi_lo=pi_lo, pi_hi=pi_hi)
 
 
 # ── analysis assembly ───────────────────────────────────────────────────────
@@ -139,7 +146,8 @@ def leave_one_out(ep):
 
 # ── console + CSV ────────────────────────────────────────────────────────────
 def console_and_csv():
-    rows_csv = [['endpoint', 'analysis', 'k', 'HR', 'CI_low', 'CI_high', 'I2_pct', 'tau2']]
+    rows_csv = [['endpoint', 'analysis', 'k', 'HR', 'CI_low', 'CI_high', 'I2_pct', 'tau2',
+                 'PI_low', 'PI_high']]
     print('=' * 84)
     print('SENSITIVITY ANALYSES — WPRT vs PORT. HR<1 favours pelvic RT (WPRT).')
     print('=' * 84)
@@ -147,15 +155,21 @@ def console_and_csv():
         print(f'\n### {ep}  ({ENDPOINTS[ep]["note"] or "single defn"})')
         for label, r, trials, key in run_endpoint(ep):
             flag = '  <-- key' if key else ''
+            pi = (f'  PI {r["pi_lo"]:.2f}-{r["pi_hi"]:.2f}'
+                  if not np.isnan(r['pi_lo']) else '')
             print(f'  {label:<38} k={r["k"]}  HR {r["hr"]:.2f} ({r["lo"]:.2f}-{r["hi"]:.2f})'
-                  f'  I2={r["I2"]:.0f}%  tau2={r["tau2"]:.3f}{flag}')
+                  f'  I2={r["I2"]:.0f}%  tau2={r["tau2"]:.3f}{pi}{flag}')
             rows_csv.append([ep, label, r['k'], f'{r["hr"]:.3f}', f'{r["lo"]:.3f}',
-                             f'{r["hi"]:.3f}', f'{r["I2"]:.0f}', f'{r["tau2"]:.4f}'])
+                             f'{r["hi"]:.3f}', f'{r["I2"]:.0f}', f'{r["tau2"]:.4f}',
+                             '' if np.isnan(r['pi_lo']) else f'{r["pi_lo"]:.3f}',
+                             '' if np.isnan(r['pi_hi']) else f'{r["pi_hi"]:.3f}'])
         print('  -- leave-one-out --')
         for label, r in leave_one_out(ep):
             print(f'  {label:<38} k={r["k"]}  HR {r["hr"]:.2f} ({r["lo"]:.2f}-{r["hi"]:.2f})  I2={r["I2"]:.0f}%')
             rows_csv.append([ep, 'LOO: ' + label, r['k'], f'{r["hr"]:.3f}', f'{r["lo"]:.3f}',
-                             f'{r["hi"]:.3f}', f'{r["I2"]:.0f}', f'{r["tau2"]:.4f}'])
+                             f'{r["hi"]:.3f}', f'{r["I2"]:.0f}', f'{r["tau2"]:.4f}',
+                             '' if np.isnan(r['pi_lo']) else f'{r["pi_lo"]:.3f}',
+                             '' if np.isnan(r['pi_hi']) else f'{r["pi_hi"]:.3f}'])
     path = os.path.join(OUT, 'sensitivity_summary.csv')
     with open(path, 'w', newline='') as fh:
         csv.writer(fh).writerows(rows_csv)
