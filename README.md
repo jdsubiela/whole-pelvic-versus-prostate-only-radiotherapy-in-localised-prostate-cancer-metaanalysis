@@ -6,7 +6,7 @@ Reproducible analysis code for the systematic review and meta-analysis:
 
 - Open Science Framework Project: [osf.io/ajhek](https://osf.io/ajhek/)
 - Open Science Framework Registration: [osf.io/7kfdp](https://osf.io/7kfdp/)
-- PROSPERO ID: pending allocation.
+- PROSPERO: [CRD420261433121](https://www.crd.york.ac.uk/PROSPERO/view/CRD420261433121)
 
 ---
 
