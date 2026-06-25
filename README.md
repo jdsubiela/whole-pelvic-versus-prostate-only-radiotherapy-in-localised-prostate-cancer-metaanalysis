@@ -73,9 +73,16 @@ When the manuscript is published, cite the published paper. To cite this code re
 
 MIT (see `LICENSE`). Digitised Kaplan-Meier coordinates and reconstructed pseudo-IPD in `analysis/ipd/` are released under CC0 1.0 for reproducibility audit; each carries its source trial citation.
 
-## Author
+## Authors
 
-José Daniel Subiela. Corresponding author: jdsubiela [at] gmail.com.
+- **José Daniel Subiela** — Department of Urology, Hospital Universitario Ramón y Cajal, Madrid, Spain. *Corresponding author; co-first.* jdsubiela [at] gmail.com.
+- **Elías Gomis Sellés** — Department of Radiation Oncology, Hospital Universitario y Politécnico La Fe (Valencia) / GenesisCare Valencia / Universidad Internacional de La Rioja (UNIR), Spain. *Co-first author.*
+- **Fernando López Campos** — Department of Radiation Oncology, Hospital Universitario Ramón y Cajal, Madrid, Spain.
+- **Juan Gómez Rivas** — Department of Urology, Hospital Clínico San Carlos, Madrid, Spain.
+- **Òscar Buisan** — Department of Urology, Hospital Universitari de Bellvitge, L'Hospitalet de Llobregat, Barcelona, Spain.
+- **Felipe Couñago** — Department of Radiation Oncology, San Francisco de Asís Hospital / La Milagrosa Hospital, Madrid; National Chair of Research, GenesisCare, Madrid, Spain. *Senior author.*
+
+Additional international co-authors and the full byline + numbered affiliations live in [`manuscript/authors.md`](https://osf.io/ajhek/) (OSF Project) and in the PROSPERO record above.
 
 ## What is NOT in this repository
 
