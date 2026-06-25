@@ -80,7 +80,7 @@ MIT (see `LICENSE`). Digitised Kaplan-Meier coordinates and reconstructed pseudo
 - **Júlia Aumatell, MD, PhD** — Department of Urology, Hospital Universitario Rey Juan Carlos, Universidad Rey Juan Carlos, Móstoles, Madrid, Spain.
 - **Fernando López Campos, MD, PhD** — Department of Radiation Oncology, Hospital Universitario Ramón y Cajal, Madrid, Spain.
 - **David López-Curtis, MD** — Department of Urology, Hospital Universitario Ramón y Cajal, Madrid, Spain.
-- **Victoria Vera, MD** — *Affiliation pending.*
+- **Victoria Vera Barragán, MD** — Department of Radiation Oncology, Hospital Universitario de Badajoz, Badajoz, Spain.
 - **Juan Gómez Rivas, MD, PhD** — Department of Urology, Hospital Clínico San Carlos, Madrid, Spain.
 - **Luis San-José Manso, MD, PhD** — Department of Urology, Hospital Universitario de La Princesa, IIS Princesa, Universidad Autónoma de Madrid, Madrid, Spain.
 - **Francesco Barletta, MD** — Division of Experimental Oncology, Department of Urology, Urological Research Institute, Vita-Salute San Raffaele University, Milan, Italy.
