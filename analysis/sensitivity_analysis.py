@@ -17,8 +17,8 @@ plus leave-one-out (drop each trial in turn).
 
 Outputs (in analysis/figures/):
   sensitivity_summary.csv
-  forest_sensitivity_robustness.{png,pdf}
-  forest_sensitivity_leaveoneout.{png,pdf}
+  forest_sensitivity_robustness.png   (Supplementary Figure S1)
+  forest_sensitivity_leaveoneout.png  (Supplementary Figure S2)
 
 Note on validity (k=4-5): no funnel/Egger/meta-regression — invalid at this k.
 These are robustness checks, not confirmatory subgroup tests. The published-only
@@ -39,7 +39,10 @@ from pairwise_ma import TRIALS, ENDPOINTS, _yv, OUT
 
 DPI = 300
 SLIDE_ONLY = {'PEACE-2', 'RTOG 0924'}   # not yet peer-reviewed (congress slides)
-C_POOL = '#1F4E79'; C_ALT = '#7F8C8D'; C_KEY = '#C0392B'; C_NULL = '#9AA0A6'
+# Coordinated Nature-style palette (matches Figure 4):
+# teal pooled · muted-teal alternatives · coral key sensitivity · navy LOO rows
+C_POOL = '#0E7C7B'; C_ALT = '#86B8B6'; C_KEY = '#E8694A'; C_NULL = '#C3C8CE'
+C_STUDY = '#3D5A80'; C_SHADE = '#F5F8FB'
 XLIM = (0.05, 90); EFFECT_MAX = 6.0; SEP_X = 7.5; TXT_X = 10.0
 XTICKS = [0.1, 0.25, 0.5, 1, 2, 4]
 
@@ -197,83 +200,82 @@ def _diamond(ax, c, lo, hi, y, color, h=0.30):
     _arrows(ax, lo, hi, y, color)
 
 
-def _forest_panel(ax, items, title, letter):
+def _forest_panel(ax, items, letter, show_dir=False, show_xticklabels=False):
+    n = len(items)
+    ys = list(range(n - 1, -1, -1))
+    for idx, y in enumerate(ys):                       # alternating row shading
+        if idx % 2 == 0:
+            ax.axhspan(y - 0.5, y + 0.5, color=C_SHADE, zorder=0)
     ax.axvline(1, color=C_NULL, ls='--', lw=0.9, zorder=1)
-    ax.axvline(SEP_X, color='#e6e6e6', lw=0.8, zorder=1)
-    ys = list(range(len(items) - 1, -1, -1))
-    ax.text(TXT_X, ys[0] + 0.85, 'HR (95% CI)', ha='left', va='center',
-            fontsize=7, style='italic', color='#888')
+    ax.axvline(SEP_X, color='#E6E9ED', lw=0.8, zorder=1)
     for (label, r, color), y in zip(items, ys):
-        _diamond(ax, r['hr'], r['lo'], r['hi'], y, color, h=0.28)
+        _diamond(ax, r['hr'], r['lo'], r['hi'], y, color, h=0.26)
         ax.text(TXT_X, y, f'{r["hr"]:.2f} ({r["lo"]:.2f}–{r["hi"]:.2f})', ha='left', va='center',
                 fontsize=7.4, color=color, fontweight='bold')
     ax.set_yticks(ys); ax.set_yticklabels([it[0] for it in items], fontsize=8)
     for lab, it in zip(ax.get_yticklabels(), items):
         lab.set_color(it[2])
-    ax.set_xscale('log'); ax.set_xlim(*XLIM); ax.set_ylim(-0.6, len(items) - 0.2)
-    ax.set_xticks(XTICKS); ax.set_xticklabels([str(x) for x in XTICKS], fontsize=8)
+    ax.set_xscale('log'); ax.set_xlim(*XLIM); ax.set_ylim(-0.6, n - 0.4)
+    ax.set_xticks(XTICKS)
+    if show_xticklabels:
+        ax.set_xticklabels([str(x) for x in XTICKS], fontsize=8.5)
     ax.spines[['top', 'right', 'left']].set_visible(False); ax.tick_params(axis='y', length=0)
-    td = blended_transform_factory(ax.transData, ax.transAxes)
-    y_arr = -0.20; y_txt = -0.27
-    ax.annotate('', xy=(0.07, y_arr), xytext=(0.9, y_arr), xycoords=td, textcoords=td,
-                annotation_clip=False, arrowprops=dict(arrowstyle='-|>', color='#777', lw=1.0))
-    ax.annotate('', xy=(EFFECT_MAX, y_arr), xytext=(1.12, y_arr), xycoords=td, textcoords=td,
-                annotation_clip=False, arrowprops=dict(arrowstyle='-|>', color='#777', lw=1.0))
-    ax.text(0.25, y_txt, 'favours WPRT', transform=td, ha='center', va='top',
-            fontsize=7, color='#555', clip_on=False)
-    ax.text(2.4, y_txt, 'favours PORT', transform=td, ha='center', va='top',
-            fontsize=7, color='#555', clip_on=False)
-    ax.set_title(f'{letter}   {title}', loc='left', fontsize=10, fontweight='bold', pad=10)
+    # panel letter only (endpoint named in the legend, not on the figure)
+    ax.text(-0.42, 1.04, letter, transform=ax.transAxes, fontsize=14,
+            fontweight='bold', color='#1A1A1A', va='top', ha='left')
+    if show_dir:                                       # direction guide on bottom panel only
+        td = blended_transform_factory(ax.transData, ax.transAxes)
+        y_arr, y_txt = -0.13, -0.19
+        ax.annotate('', xy=(0.07, y_arr), xytext=(0.9, y_arr), xycoords=td, textcoords=td,
+                    annotation_clip=False, arrowprops=dict(arrowstyle='-|>', color='#777', lw=1.0))
+        ax.annotate('', xy=(EFFECT_MAX, y_arr), xytext=(1.12, y_arr), xycoords=td, textcoords=td,
+                    annotation_clip=False, arrowprops=dict(arrowstyle='-|>', color='#777', lw=1.0))
+        ax.text(0.25, y_txt, 'favours WPRT', transform=td, ha='center', va='top',
+                fontsize=7, color='#555', clip_on=False)
+        ax.text(2.4, y_txt, 'favours PORT', transform=td, ha='center', va='top',
+                fontsize=7, color='#555', clip_on=False)
+
+
+def _vertical_forest(panels, fname):
+    """panels = [items_a, items_b, items_c]; stacked 1 column × 3 rows, shared x-axis."""
+    counts = [max(len(p), 1) for p in panels]
+    H = sum(counts) * 0.42 + 2.6
+    fig = plt.figure(figsize=(8.8, H))
+    gs = fig.add_gridspec(3, 1, height_ratios=counts, hspace=0.34,
+                          left=0.27, right=0.84, top=0.985, bottom=0.06)
+    axes = []
+    for i, (items, letter) in enumerate(zip(panels, ['a', 'b', 'c'])):
+        ax = fig.add_subplot(gs[i, 0], sharex=axes[0] if axes else None)
+        axes.append(ax)
+        _forest_panel(ax, items, letter, show_dir=(i == 2), show_xticklabels=(i == 2))
+    fig.savefig(os.path.join(OUT, f'{fname}.png'), dpi=DPI, bbox_inches='tight')
+    plt.close(fig)
 
 
 def plot_robustness():
-    eps = list(ENDPOINTS)
-    fig, axes = plt.subplots(1, 3, figsize=(18, 5.8))
-    fig.subplots_adjust(left=0.15, right=0.99, top=0.82, bottom=0.24, wspace=0.55)
-    for ax, letter, ep in zip(axes, ['a', 'b', 'c'], eps):
+    panels = []
+    for ep in ENDPOINTS:
         items = []
         for label, r, trials, key in run_endpoint(ep):
             color = C_KEY if key else (C_POOL if label.startswith('Primary') else C_ALT)
             items.append((label, r, color))
-        _forest_panel(ax, items, ep, letter)
-    fig.suptitle('Sensitivity analyses — pelvic vs prostate-only radiotherapy '
-                 '(pairwise random-effects MA)', x=0.5, y=0.96, fontsize=12.5, fontweight='bold')
-    fig.text(0.15, 0.012,
-             'Hazard ratio (95% CI), log scale. Key sensitivity (red) = full-text trials only, '
-             'i.e. excluding trials available only as congress presentations (PEACE-2 ASCO GU / '
-             'ESTRO 2026 and RTOG 0924 ASTRO 2025). '
-             'No funnel/Egger/meta-regression (invalid at k=4–5); robustness checks, not confirmatory. '
-             'Arrowhead = CI beyond axis. HR<1 favours pelvic RT (WPRT).',
-             ha='left', fontsize=7.0, color='#666', va='bottom')
-    for ext in ('png', 'pdf'):
-        fig.savefig(os.path.join(OUT, f'forest_sensitivity_robustness.{ext}'),
-                    dpi=DPI, bbox_inches='tight')
-    plt.close(fig)
+        panels.append(items)
+    _vertical_forest(panels, 'forest_sensitivity_robustness')
 
 
 def plot_leaveoneout():
-    eps = list(ENDPOINTS)
-    fig, axes = plt.subplots(1, 3, figsize=(17, 4.8))
-    fig.subplots_adjust(left=0.12, right=0.99, top=0.80, bottom=0.28, wspace=0.50)
-    for ax, letter, ep in zip(axes, ['a', 'b', 'c'], eps):
+    panels = []
+    for ep in ENDPOINTS:
         prim = pool([_yv(d) for _, d in endpoint_rows(ep)], 'DL', 'hk')
         items = [('Primary (all)', prim, C_POOL)]
         for label, r in leave_one_out(ep):
-            items.append((label, r, '#3A3A3A'))
-        _forest_panel(ax, items, ep, letter)
-    fig.suptitle('Leave-one-out sensitivity — pelvic vs prostate-only radiotherapy',
-                 x=0.5, y=0.96, fontsize=12.5, fontweight='bold')
-    fig.text(0.12, 0.012, 'Hazard ratio (95% CI), log scale. Each row = pooled HR after omitting one trial '
-             '(DL + modified Hartung-Knapp). Arrowhead = CI beyond axis. HR<1 favours pelvic RT (WPRT).',
-             ha='left', fontsize=7.0, color='#666', va='bottom')
-    for ext in ('png', 'pdf'):
-        fig.savefig(os.path.join(OUT, f'forest_sensitivity_leaveoneout.{ext}'),
-                    dpi=DPI, bbox_inches='tight')
-    plt.close(fig)
+            items.append((label, r, C_STUDY))
+        panels.append(items)
+    _vertical_forest(panels, 'forest_sensitivity_leaveoneout')
 
 
 if __name__ == '__main__':
     console_and_csv()
     plot_robustness()
     plot_leaveoneout()
-    print('Saved: forest_sensitivity_robustness.{png,pdf} and forest_sensitivity_leaveoneout.{png,pdf}')
+    print('Saved: forest_sensitivity_robustness.png (S1) and forest_sensitivity_leaveoneout.png (S2)')

@@ -36,8 +36,11 @@ mpl.rcParams.update({
     'font.size': 9, 'axes.linewidth': 0.8, 'axes.edgecolor': '#333333',
     'pdf.fonttype': 42, 'ps.fonttype': 42,
 })
-C_STUDY = '#3A3A3A'; C_POPRT = '#C0392B'; C_POOL = '#1F4E79'
-C_POOLX = '#7F8C8D'; C_NULL = '#9AA0A6'
+# Coordinated Nature-style palette: navy-slate studies · coral outlier (POP-RT)
+# · teal pooled diamond · muted-teal sensitivity pool
+C_STUDY = '#3D5A80'; C_POPRT = '#E8694A'; C_POOL = '#0E7C7B'
+C_POOLX = '#86B8B6'; C_NULL = '#C3C8CE'
+C_SHADE = '#F5F8FB'
 XLIM = (0.07, 90); EFFECT_MAX = 4.5; SEP_X = 5.6; TXT_X = 7.0
 XTICKS = [0.1, 0.25, 0.5, 1, 2, 4]
 
@@ -140,9 +143,8 @@ def _diamond(ax, c, lo, hi, ypos, color, h=0.30):
     _arrows(ax, lo, hi, ypos, color)
 
 
-def _direction_below(ax):
+def _direction_below(ax, y_arr=-0.08, y_txt=-0.12):
     td = blended_transform_factory(ax.transData, ax.transAxes)
-    y_arr, y_txt = -0.08, -0.12
     ax.annotate('', xy=(0.09, y_arr), xytext=(0.9, y_arr), xycoords=td, textcoords=td,
                 annotation_clip=False, arrowprops=dict(arrowstyle='-|>', color='#777', lw=1.0))
     ax.annotate('', xy=(EFFECT_MAX, y_arr), xytext=(1.12, y_arr), xycoords=td, textcoords=td,
@@ -227,25 +229,25 @@ def plot_combined():
     plt.close(fig)
 
 
-# ── Layout 2: 3 side-by-side panels (shared study rows) ─────────────────────────────
+# ── Layout 2: 3 stacked panels (1 column × 3 rows), Nature aesthetic ─────────────────
 def plot_panels():
     Y = {tr: yy for tr, yy in zip(TRIALS, [6, 5, 4, 3, 2])}
     Y_POOL, Y_POOLX = 0.55, -0.4
-    fig, axes = plt.subplots(1, 3, figsize=(19, 6.6), sharey=True)
-    fig.subplots_adjust(left=0.12, right=0.99, top=0.80, bottom=0.22, wspace=0.50)
+    fig, axes = plt.subplots(3, 1, figsize=(7.8, 10.4), sharex=True)
+    fig.subplots_adjust(left=0.205, right=0.815, top=0.985, bottom=0.085, hspace=0.30)
     letters = ['a', 'b', 'c']
     for ax, letter, (ep, R) in zip(axes, letters, results.items()):
         for idx, tr in enumerate(TRIALS):
             if idx % 2 == 0:
-                ax.axhspan(Y[tr] - 0.5, Y[tr] + 0.5, color='#F4F6F8', zorder=0)
+                ax.axhspan(Y[tr] - 0.5, Y[tr] + 0.5, color=C_SHADE, zorder=0)
         ax.axvline(1, color=C_NULL, ls='--', lw=0.9, zorder=1)
-        ax.axvline(SEP_X, color='#e6e6e6', lw=0.8, zorder=1)
+        ax.axvline(SEP_X, color='#E6E9ED', lw=0.8, zorder=1)
         present = {r[0]: (r[3], w) for r, w in zip(R['rows'], R['pooled']['w'])}
         wmax = R['pooled']['w'].max()
         for tr in TRIALS:
             if tr not in present:
                 ax.text(TXT_X, Y[tr], 'NR', ha='left', va='center',
-                        fontsize=7.2, color='#AAAAAA', style='italic')
+                        fontsize=7.4, color='#AAAAAA', style='italic')
                 continue
             d, w = present[tr]; hr, lo, hi = d
             col = C_POPRT if tr == 'POP-RT' else C_STUDY
@@ -255,7 +257,7 @@ def plot_panels():
                        edgecolor='white', linewidth=0.6, zorder=4)
             _arrows(ax, lo, hi, Y[tr], col)
             ax.text(TXT_X, Y[tr], f'{hr:.2f} ({lo:.2f}–{hi:.2f})', ha='left', va='center',
-                    fontsize=7.2, color=col)
+                    fontsize=7.6, color=col)
         ax.axhline(1.35, color='#DDDDDD', lw=0.7)
         for kind, ypos, color in [('pooled', Y_POOL, C_POOL), ('poolx', Y_POOLX, C_POOLX)]:
             RR = R['pooled'] if kind == 'pooled' else R['pooled_x']
@@ -264,39 +266,32 @@ def plot_panels():
             c, lo, hi = E(RR['est']), E(RR['ci'][0]), E(RR['ci'][1])
             _diamond(ax, c, lo, hi, ypos, color, h=0.26)
             ax.text(TXT_X, ypos, f'{c:.2f} ({lo:.2f}–{hi:.2f})', ha='left', va='center',
-                    fontsize=7.4, color=color, fontweight='bold')
+                    fontsize=7.8, color=color, fontweight='bold')
         ax.text(0.10, -1.35, f'I²={R["pooled"]["I2"]:.0f}%   τ²={R["pooled"]["tau2"]:.2f}',
-                ha='left', va='center', fontsize=7.4, color='#333333')
+                ha='left', va='center', fontsize=7.6, color='#333333')
         ax.set_xscale('log'); ax.set_xlim(*XLIM); ax.set_ylim(-1.9, 6.9)
-        ax.set_xticks(XTICKS); ax.set_xticklabels([str(x) for x in XTICKS], fontsize=8.5)
+        ax.set_xticks(XTICKS)
         ax.spines[['top', 'right', 'left']].set_visible(False)
         ax.tick_params(axis='y', length=0)
-        _direction_below(ax)
-        ax.set_title(f'{letter}   {ep}', loc='left', fontsize=10.5, fontweight='bold', pad=16)
-        if R['note']:
-            ax.annotate(R['note'], xy=(0, 1.0), xytext=(0, 11), textcoords='offset points',
-                        xycoords='axes fraction', fontsize=7.2, style='italic', color='#777777')
-    yt = [Y[t] for t in TRIALS] + [Y_POOL, Y_POOLX]
-    ylab = TRIALS + ['Pooled (DL+HK)', 'Pooled excl. POP-RT']
-    axes[0].set_yticks(yt); axes[0].set_yticklabels(ylab, fontsize=9)
-    for lab in axes[0].get_yticklabels():
-        txt = lab.get_text()
-        if txt == 'POP-RT':
-            lab.set_color(C_POPRT)
-        elif txt == 'Pooled excl. POP-RT':
-            lab.set_color(C_POOLX); lab.set_fontweight('bold')
-        elif txt == 'Pooled (DL+HK)':
-            lab.set_color(C_POOL); lab.set_fontweight('bold')
-    fig.suptitle('Pelvic vs prostate-only radiotherapy in localized prostate cancer — '
-                 'random-effects meta-analysis of 5 randomized trials',
-                 x=0.5, y=0.96, fontsize=12.5, fontweight='bold')
-    fig.text(0.12, 0.012,
-             'Hazard ratio (95% CI), log scale. DL + modified Hartung-Knapp. Squares sized by study weight; '
-             'POP-RT (red) drives heterogeneity. Biochemical & DM/MFS pool mixed endpoint definitions. '
-             'NR = not reported. Arrowhead = CI beyond axis. HR<1 favours pelvic RT (WPRT).',
-             ha='left', fontsize=7.2, color='#666', va='bottom')
+        # per-panel study labels (vertical stack — each row needs its own)
+        yt = [Y[t] for t in TRIALS] + [Y_POOL, Y_POOLX]
+        ylab = TRIALS + ['Pooled (DL+HK)', 'Pooled excl. POP-RT']
+        ax.set_yticks(yt); ax.set_yticklabels(ylab, fontsize=8.8)
+        for lab in ax.get_yticklabels():
+            txt = lab.get_text()
+            if txt == 'POP-RT':
+                lab.set_color(C_POPRT)
+            elif txt == 'Pooled excl. POP-RT':
+                lab.set_color(C_POOLX); lab.set_fontweight('bold')
+            elif txt == 'Pooled (DL+HK)':
+                lab.set_color(C_POOL); lab.set_fontweight('bold')
+        # panel letter only (endpoint named in the legend, not on the figure)
+        ax.text(-0.20, 1.04, letter, transform=ax.transAxes, fontsize=14,
+                fontweight='bold', color='#1A1A1A', va='top', ha='left')
+    # direction guide + x labels only under the bottom panel (shared x-axis)
+    _direction_below(axes[-1], y_arr=-0.11, y_txt=-0.16)
+    axes[-1].set_xticklabels([str(x) for x in XTICKS], fontsize=8.8)
     fig.savefig(os.path.join(OUT, 'forest_pairwise_ma_panels.png'), dpi=DPI, bbox_inches='tight')
-    fig.savefig(os.path.join(OUT, 'forest_pairwise_ma_panels.pdf'), bbox_inches='tight')
     plt.close(fig)
 
 
