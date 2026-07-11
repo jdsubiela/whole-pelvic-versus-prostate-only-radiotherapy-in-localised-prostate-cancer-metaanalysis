@@ -175,7 +175,8 @@ def analyse():
 # (up to XLIM hi) is reserved for the HR-text column so labels never overlap data.
 XLIM = (0.06, 90); EFFECT_MAX = 4.5; SEP_X = 5.6; TXT_X = 7.0
 XTICKS = [0.1, 0.25, 0.5, 1, 2, 4]
-C_PUB = '#3A3A3A'; C_PRIM = '#1F4E79'; C_NULL = '#9AA0A6'
+# Coordinated palette (matches Supplementary Figures S1/S2 and Figure 4)
+C_STUDY = '#3D5A80'; C_POOL = '#0E7C7B'; C_NULL = '#C3C8CE'; C_SHADE = '#F5F8FB'
 
 
 def _clamp(v):
@@ -198,35 +199,38 @@ def _diamond(ax, c, lo, hi, y, color, h=0.30):
     _arrows(ax, lo, hi, y, color)
 
 
-def forest(per_endpoint):
-    fig, axes = plt.subplots(1, 3, figsize=(18, 5.6))
-    fig.subplots_adjust(left=0.10, right=0.99, top=0.80, bottom=0.28, wspace=0.50)
-    for ax, letter, (ep, D) in zip(axes, ['a', 'b', 'c'], per_endpoint.items()):
-        items = [(r['trial'], r['hr'], r['lo'], r['hi'], C_PUB, False) for r in D['recs']]
-        P = D['pooled']['all']
-        items.append(('Pooled (random-effects)', P['hr'], P['lo'], P['hi'], C_PRIM, True))
-        ys = list(range(len(items) - 1, -1, -1))
-        ax.axvline(1, color=C_NULL, ls='--', lw=0.9)
-        ax.axvline(SEP_X, color='#e6e6e6', lw=0.8)
-        ax.text(TXT_X, ys[0] + 0.85, 'HR (95% CI)', ha='left', va='center', fontsize=7, style='italic', color='#888')
-        for (lab, hr, lo, hi, col, pooled), y in zip(items, ys):
-            if pooled:
-                _diamond(ax, hr, lo, hi, y, col)
-            else:
-                ax.plot([max(lo, XLIM[0]), min(hi, EFFECT_MAX)], [y, y], '-', color=col, lw=1.5, zorder=3)
-                ax.scatter([_clamp(hr)], [y], s=36, marker='s', color=col, edgecolor='white', lw=0.6, zorder=4)
-                _arrows(ax, lo, hi, y, col)
-            ax.text(TXT_X, y, f'{hr:.2f} ({lo:.2f}–{hi:.2f})', ha='left', va='center',
-                    fontsize=7.6, color=col, fontweight='bold' if pooled else 'normal')
-        ax.set_yticks(ys); ax.set_yticklabels([it[0] for it in items], fontsize=8.4)
-        for lab, it in zip(ax.get_yticklabels(), items):
-            lab.set_color(it[4]); lab.set_fontweight('bold' if it[5] else 'normal')
-        ax.set_xscale('log'); ax.set_xlim(*XLIM); ax.set_ylim(-0.6, len(items) - 0.2)
-        ax.set_xticks(XTICKS); ax.set_xticklabels([str(x) for x in XTICKS], fontsize=8)
-        ax.tick_params(axis='y', length=0); ax.spines[['top', 'right', 'left']].set_visible(False)
-        # per-panel direction of effect: arrows + labels BELOW the x-axis (axes-fraction y)
+def _ipd_panel(ax, items, note, letter, show_dir=False, show_xticklabels=False):
+    n = len(items)
+    ys = list(range(n - 1, -1, -1))
+    for idx, y in enumerate(ys):                       # alternating row shading
+        if idx % 2 == 0:
+            ax.axhspan(y - 0.5, y + 0.5, color=C_SHADE, zorder=0)
+    ax.axvline(1, color=C_NULL, ls='--', lw=0.9, zorder=1)
+    ax.axvline(SEP_X, color='#E6E9ED', lw=0.8, zorder=1)
+    for (lab, hr, lo, hi, col, pooled), y in zip(items, ys):
+        if pooled:
+            _diamond(ax, hr, lo, hi, y, col, h=0.28)
+        else:
+            ax.plot([max(lo, XLIM[0]), min(hi, EFFECT_MAX)], [y, y], '-', color=col, lw=1.5, zorder=3)
+            ax.scatter([_clamp(hr)], [y], s=34, marker='s', color=col, edgecolor='white', lw=0.6, zorder=4)
+            _arrows(ax, lo, hi, y, col)
+        ax.text(TXT_X, y, f'{hr:.2f} ({lo:.2f}–{hi:.2f})', ha='left', va='center',
+                fontsize=7.6, color=col, fontweight='bold' if pooled else 'normal')
+    ax.set_yticks(ys); ax.set_yticklabels([it[0] for it in items], fontsize=8.6)
+    for lab, it in zip(ax.get_yticklabels(), items):
+        lab.set_color(it[4]); lab.set_fontweight('bold' if it[5] else 'normal')
+    ax.set_xscale('log'); ax.set_xlim(*XLIM); ax.set_ylim(-1.0, n - 0.4)
+    ax.set_xticks(XTICKS)
+    if show_xticklabels:
+        ax.set_xticklabels([str(x) for x in XTICKS], fontsize=8.5)
+    ax.spines[['top', 'right', 'left']].set_visible(False); ax.tick_params(axis='y', length=0)
+    ax.text(-0.42, 1.04, letter, transform=ax.transAxes, fontsize=14,
+            fontweight='bold', color='#1A1A1A', va='top', ha='left')
+    ax.text(0.0, -0.85, note, fontsize=7.2, color='#333333', va='center', ha='left',
+            transform=blended_transform_factory(ax.transAxes, ax.transData))
+    if show_dir:
         td = blended_transform_factory(ax.transData, ax.transAxes)
-        y_arr = -0.20; y_txt = -0.27
+        y_arr, y_txt = -0.13, -0.19
         ax.annotate('', xy=(0.085, y_arr), xytext=(0.9, y_arr), xycoords=td, textcoords=td,
                     annotation_clip=False, arrowprops=dict(arrowstyle='-|>', color='#777', lw=1.0))
         ax.annotate('', xy=(EFFECT_MAX, y_arr), xytext=(1.12, y_arr), xycoords=td, textcoords=td,
@@ -235,16 +239,28 @@ def forest(per_endpoint):
                 fontsize=7, color='#555', clip_on=False)
         ax.text(2.0, y_txt, 'favours PORT', transform=td, ha='center', va='top',
                 fontsize=7, color='#555', clip_on=False)
-        sub = f'PH p={D["ph_p"]:.2f} · HR ≤60mo {D["hr_early"]:.2f} / >60mo {D["hr_late"]:.2f} · I²={P["I2"]:.0f}%'
-        ax.set_title(f'{letter}  {ep}\n{sub}', loc='left', fontsize=9.5, fontweight='bold', pad=8)
-    fig.suptitle('Reconstructed-IPD meta-analysis (two-stage, DL + Hartung-Knapp) — pelvic vs prostate-only RT',
-                 x=0.5, y=0.96, fontsize=12.5, fontweight='bold')
-    fig.text(0.10, 0.012, 'Hazard ratio (95% CI), log scale. Two-stage random-effects meta-analysis '
-             '(DerSimonian-Laird τ² + Hartung-Knapp CI) of Guyot-reconstructed pseudo-IPD. Squares = trials, '
-             'diamond = pooled. Arrowhead = CI beyond axis. HR<1 favours pelvic RT (WPRT).',
-             ha='left', fontsize=7.0, color='#666')
-    for ext in ('png', 'pdf'):
-        fig.savefig(os.path.join(OUT, f'forest_ipd_pooled.{ext}'), dpi=300, bbox_inches='tight')
+
+
+def forest(per_endpoint):
+    panels = []
+    for ep, D in per_endpoint.items():
+        items = [(r['trial'], r['hr'], r['lo'], r['hi'], C_STUDY, False) for r in D['recs']]
+        P = D['pooled']['all']
+        items.append(('Pooled (random-effects)', P['hr'], P['lo'], P['hi'], C_POOL, True))
+        note = (f"PH p={D['ph_p']:.2f} · HR ≤60mo {D['hr_early']:.2f} / "
+                f">60mo {D['hr_late']:.2f} · I²={P['I2']:.0f}%")
+        panels.append((items, note))
+    counts = [len(it) for it, _ in panels]
+    H = sum(counts) * 0.44 + 2.8
+    fig = plt.figure(figsize=(8.8, H))
+    gs = fig.add_gridspec(3, 1, height_ratios=counts, hspace=0.46,
+                          left=0.30, right=0.84, top=0.985, bottom=0.07)
+    axes = []
+    for i, ((items, note), letter) in enumerate(zip(panels, ['a', 'b', 'c'])):
+        ax = fig.add_subplot(gs[i, 0], sharex=axes[0] if axes else None)
+        axes.append(ax)
+        _ipd_panel(ax, items, note, letter, show_dir=(i == 2), show_xticklabels=(i == 2))
+    fig.savefig(os.path.join(OUT, 'forest_ipd_pooled.png'), dpi=300, bbox_inches='tight')
     plt.close(fig)
 
 

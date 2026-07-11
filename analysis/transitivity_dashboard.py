@@ -25,11 +25,12 @@ from matplotlib.lines import Line2D
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'figures')
 os.makedirs(OUT, exist_ok=True)
-DPI = 250
+DPI = 300
 NA = np.nan
 
 TRIALS = ['GETUG-01', 'RTOG 9413', 'POP-RT', 'RTOG 0924', 'PEACE-2']
-COLORS = ['#1f77b4', '#ff7f0e', '#d62728', '#2ca02c', '#9467bd']  # POP-RT = red
+# Coordinated manuscript palette (POP-RT coral and RTOG 0924 teal match Figure 4)
+COLORS = ['#3D5A80', '#E8A33D', '#E8694A', '#0E7C7B', '#8E6BAA']
 
 # label, numeric values (NA = not reported), display strings
 DIMS = [
@@ -44,6 +45,8 @@ DIMS = [
     ('IMRT (vs 2D/3D)',         [40, 0, 100, 90, 100],     ['2D/3D', '2D', 'IMRT', 'IMRT', 'IMRT']),
     ('Single-centre',           [0, 0, 100, 0, 0],         ['No', 'No', 'Yes', 'No', 'No']),
     ('Chemotherapy',            [0, 0, 0, 0, 100],         ['No', 'No', 'No', 'No', 'Cabaz.']),
+    ('Prostate dose (Gy)',      [68, 70.2, 68, 79.2, 78],  ['66–70', '70.2', '68', '79.2', '78']),
+    ('ADT mandatory',           [0, 100, 100, 100, 100],   ['Optional', 'Yes', 'Yes', 'Yes', 'Yes']),
 ]
 labels = [d[0] for d in DIMS]
 M = np.array([d[1] for d in DIMS], dtype=float)   # rows=dims, cols=trials (NaN allowed)
@@ -60,88 +63,58 @@ def norm_rows(mat):
 
 Mn = norm_rows(M)
 
-fig = plt.figure(figsize=(17, 13))
-gs = GridSpec(2, 2, height_ratios=[1.15, 1.0], hspace=0.40, wspace=0.28,
-              left=0.13, right=0.97, top=0.86, bottom=0.09)
-ax_a = fig.add_subplot(gs[0, :]); ax_b = fig.add_subplot(gs[1, 0], polar=True)
-ax_c = fig.add_subplot(gs[1, 1])
+fig = plt.figure(figsize=(13.6, 6.7))
+gs = GridSpec(1, 2, width_ratios=[1.05, 1.0], wspace=0.30,
+              left=0.05, right=0.965, top=0.83, bottom=0.13)
+ax_b = fig.add_subplot(gs[0, 0], polar=True)
+ax_c = fig.add_subplot(gs[0, 1])
 
-# ── (a) heatmap ──
-cmap = plt.cm.YlGnBu.copy(); cmap.set_bad('#EAEAEA')
-im = ax_a.imshow(np.ma.masked_invalid(Mn), aspect='auto', cmap=cmap, vmin=0, vmax=1)
-ax_a.set_xticks(range(len(TRIALS))); ax_a.set_xticklabels(TRIALS, fontsize=12, fontweight='bold')
-ax_a.set_yticks(range(len(labels))); ax_a.set_yticklabels(labels, fontsize=10.5)
-ax_a.tick_params(top=False, labeltop=False, bottom=True, labelbottom=True)
-for j in range(len(TRIALS)):
-    ax_a.get_xticklabels()[j].set_color(COLORS[j])
-for i in range(M.shape[0]):
-    for j in range(M.shape[1]):
-        if np.isnan(Mn[i, j]):
-            col = '#999999'
-        else:
-            col = 'white' if Mn[i, j] > 0.6 else '#222222'
-        ax_a.text(j, i, disp[i][j], ha='center', va='center', fontsize=9.3,
-                  fontweight='bold', color=col)
-ax_a.set_title('a   Effect-modifier comparability across trials '
-               '(per-row normalized over reported cells; darker = higher; grey = n.r.)',
-               fontsize=12, fontweight='bold', loc='left', pad=12)
-cbar = fig.colorbar(im, ax=ax_a, fraction=0.025, pad=0.02)
-cbar.set_label('Within-dimension position (0=min, 1=max)', fontsize=9)
-
-# ── (b) radar — complete-data axes only ──
-cand = [(0, '% T3-4'), (1, '% GS 7-10'), (2, 'Median PSA'),
-        (4, 'Pelvic EQD2'), (5, 'ADT mo'), (6, 'PSMA stag.')]
+# ── (a) radar — complete-data axes (clinical + design characteristics) ──
+cand = [(0, '% T3–4'), (11, 'Prostate dose'), (4, 'Pelvic EQD2'), (5, 'ADT mo'),
+        (12, 'ADT mandatory'), (6, 'PSMA stag.'), (7, 'Common-iliac'), (8, 'IMRT'),
+        (9, 'Single-centre'), (10, 'Chemo')]
 radar = [(i, name) for i, name in cand if np.all(np.isfinite(M[i]))]
 ridx = [i for i, _ in radar]; rcats = [n for _, n in radar]
 R = Mn[ridx, :] * 100.0
 ang = np.linspace(0, 2 * np.pi, len(rcats), endpoint=False).tolist(); ang += ang[:1]
 for j, tr in enumerate(TRIALS):
     vals = R[:, j].tolist(); vals += vals[:1]
-    lw = 2.6 if tr == 'POP-RT' else 1.8
-    ax_b.plot(ang, vals, 'o-', color=COLORS[j], linewidth=lw, markersize=5)
-    ax_b.fill(ang, vals, color=COLORS[j], alpha=0.05)
-ax_b.set_xticks(ang[:-1]); ax_b.set_xticklabels(rcats, fontsize=9.5)
-ax_b.tick_params(axis='x', pad=14); ax_b.set_ylim(0, 100)
+    lw = 2.6 if tr == 'POP-RT' else 1.7
+    ax_b.plot(ang, vals, 'o-', color=COLORS[j], linewidth=lw, markersize=4.2)
+    ax_b.fill(ang, vals, color=COLORS[j], alpha=0.06)
+ax_b.set_xticks(ang[:-1]); ax_b.set_xticklabels(rcats, fontsize=9)
+ax_b.tick_params(axis='x', pad=8); ax_b.set_ylim(0, 100)
 ax_b.set_yticklabels([]); ax_b.set_rlabel_position(90)
-ax_b.set_title('b   Key modifiers, normalized per axis (complete-data axes only)',
-               fontsize=11.5, fontweight='bold', loc='left', pad=26)
+ax_b.grid(color='#D9DDE2', lw=0.7)
+ax_b.set_title('a', fontsize=15, fontweight='bold', loc='left', color='#1A1A1A', pad=24)
 
-# ── (c) atypicality (over reported cells) ──
+# ── (b) atypicality (over reported cells) ──
 med = np.nanmedian(Mn, axis=1, keepdims=True)
 atyp = np.nanmean(np.abs(Mn - med), axis=0)
 order = np.argsort(atyp)
 ax_c.barh([TRIALS[k] for k in order], [atyp[k] for k in order],
-          color=[COLORS[k] for k in order], alpha=0.9, edgecolor='black', linewidth=0.6)
+          color=[COLORS[k] for k in order], alpha=0.92, edgecolor='white', linewidth=0.8)
 for rank, k in enumerate(order):
     ax_c.text(atyp[k] + 0.005, rank, f'{atyp[k]:.2f}', va='center', fontsize=10,
               fontweight='bold', color=COLORS[k])
 ax_c.set_xlabel('Mean |deviation from cross-trial median| over reported cells\n'
-                '(higher = breaks comparability more)', fontsize=10)
+                '(higher = breaks comparability more)', fontsize=9.5)
 ax_c.set_xlim(0, max(atyp) * 1.18)
-ax_c.set_title('c   Trial atypicality score', fontsize=11.5, fontweight='bold', loc='left', pad=22)
+ax_c.set_title('b', fontsize=15, fontweight='bold', loc='left', color='#1A1A1A', pad=18)
 ax_c.spines[['top', 'right']].set_visible(False)
 ax_c.xaxis.grid(True, alpha=0.25, linestyle='--'); ax_c.set_axisbelow(True)
+for lab, k in zip(ax_c.get_yticklabels(), order):
+    lab.set_color(COLORS[k])
 
-# title + shared legend + footnote
-fig.suptitle('Cross-trial clinical-comparability dashboard — WPRT vs PORT in localized prostate cancer',
-             fontsize=15, fontweight='bold', y=0.985)
+# shared trial legend only (title and footnote moved to the manuscript legend)
 fig.legend(handles=[Line2D([0], [0], color=COLORS[j], marker='o', lw=2.5, markersize=6, label=TRIALS[j])
                     for j in range(len(TRIALS))],
-           loc='upper center', bbox_to_anchor=(0.5, 0.945), ncol=5, frameon=False, fontsize=11)
-fig.text(0.13, 0.012,
-         'POP-RT is the consistent outlier (single-centre, PSMA staging, highest pelvic EQD2, common-iliac '
-         'coverage, 24-mo ADT). Effect-modifier axes are collinear → trial-level meta-regression is '
-         'exploratory only.\n* estimate for visualization;  † not located in primary source (SEOR deck cited '
-         '24.5%);  ‡ observed median (others prescribed);  n.r. = not reported / not derivable.\n'
-         'PEACE-2 Gleason reported only as 8-10 (75–79%); RTOG 0924 median PSA not derivable from slides; '
-         'PSMA staging counts PSMA-PET only (PEACE-2 ~18% imaging was mostly choline).',
-         fontsize=8, style='italic', color='#555555', va='bottom')
+           loc='upper center', bbox_to_anchor=(0.5, 0.97), ncol=5, frameon=False, fontsize=11)
 
 fig.savefig(os.path.join(OUT, 'transitivity_dashboard.png'), dpi=DPI, bbox_inches='tight')
-fig.savefig(os.path.join(OUT, 'transitivity_dashboard.pdf'), bbox_inches='tight')
 plt.close(fig)
 
-print('Saved: analysis/figures/transitivity_dashboard.{png,pdf}')
+print('Saved: analysis/figures/transitivity_dashboard.png')
 print('\nAtypicality (over reported cells):')
 for k in np.argsort(-atyp):
     print(f'  {TRIALS[k]:<12} {atyp[k]:.3f}')
