@@ -83,7 +83,7 @@ MIT (see `LICENSE`). Digitised Kaplan-Meier coordinates and reconstructed pseudo
 - **Victoria Vera Barragán, MD** — Department of Radiation Oncology, Hospital Universitario de Badajoz, Badajoz, Spain.
 - **Juan Gómez Rivas, MD, PhD** — Department of Urology, Hospital Clínico San Carlos, Madrid, Spain.
 - **Luis San-José Manso, MD, PhD** — Department of Urology, Hospital Universitario de La Princesa, IIS Princesa, Universidad Autónoma de Madrid, Madrid, Spain.
-- **Francesco Barletta, MD** — Division of Experimental Oncology, Department of Urology, Urological Research Institute, Vita-Salute San Raffaele University, Milan, Italy.
+- **Francesco Barletta, MD** — Unit of Urology / Division of Oncology, Gianfranco Soldera Prostate Cancer Laboratory, IRCCS San Raffaele Scientific Institute, Milan, Italy; Vita-Salute San Raffaele University, Milan, Italy.
 - **Òscar Buisan, MD, PhD** — Department of Urology, Hospital Universitari de Bellvitge, L'Hospitalet de Llobregat, Barcelona, Spain. *Co-senior author.*
 - **Felipe Couñago, MD, PhD** — Department of Radiation Oncology, San Francisco de Asís Hospital / La Milagrosa Hospital, Madrid; National Chair of Research, GenesisCare, Madrid, Spain. *Co-senior author.*
 
